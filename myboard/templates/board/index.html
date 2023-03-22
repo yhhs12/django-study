@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>게시판</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
   </head>
   <body>
     <h1>게시판</h1>
@@ -25,10 +27,23 @@
       </tr>
       {%endfor%}
     </table>
-    <form action="../find_friend/" method="post">
-      {%csrf_token%}
-      <input type="text" name="search_name" />
+    <form action="find_board/" method="post">            
+            {%csrf_token%}
+      <input type="radio" name="condition" value="all" checked="true" />완전일치
+      <input type="radio" name="condition" value="part" />부분일치
+      <input type="text" name="search_title" />
       <input type="submit" value="검색" />
     </form>
+    <a href="write_board.html/" >글쓰기</a>
+    
+      
+
+
+
+ {% comment %} <form action="write_board/" method="POST">
+      {%csrf_token%}
+      <input type="submit" name="write" value="글쓰기" />  {% endcomment %}
+
+
   </body>
 </html>

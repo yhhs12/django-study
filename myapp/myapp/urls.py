@@ -24,6 +24,8 @@ urlpatterns = [
     # app/라는 주소가 실행되면 app폴더의 urls를 참조하라
     path('app/', include('app.urls')),
     
-    path('friend/', include('friend.urls'))
+    path('friend/', include('friend.urls')),
+       
+
     
 ] # 리스트

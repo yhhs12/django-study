@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from .models import Board
 
@@ -31,8 +31,61 @@ def read(request, id):
     return render(request, 'board/read.html', context)
 
 def find_board(request):
-    input_friend = request.POST["search_name"]
+    input_title = request.POST["search_title"]
+    condition = request.POST["condition"]
     
+    find_boardList = []
+    if condition == "all":
+        #완전 일치
+        find_boardList = Board.objects.filter(title = input_title)
+    else:
+        #부분 일치
+        find_boardList = Board.objects.filter(title__contains = input_title)       
+    
+    
+    context = {
+        'board_list' : find_boardList
+    }
+
+    return render(request, 'board/index.html', context)
+
+def delete_board(request, id):
+    Board.objects.get(id = id).delete()
+    return HttpResponseRedirect("../../board")
+
+# def create_board(request):
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    # id = request.POST['Board_id']
+    # title = request.POST['Board_title']
+    # content = request.POST['Board_content']
+    # writer = request.POST['Board_writer']
+    # input_date = request.POST['Board_input_date']
+    # view_count = request.POST['Board_view_count']
+    
+    # Board.objects.create(
+    #     board_id = id,
+    #     board_title = title,
+    #     board_content = content,
+    #     board_writer = writer,
+    #     board_input_date = input_date,
+    #     board_view_count = view_count,
+        
+    # )
+    # return HttpResponseRedirect("../../board")
+
+
+
 
     
     
