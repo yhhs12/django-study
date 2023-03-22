@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>친구 추가</h1>
+    <table border="1">
+        <th>번호</th>
+        <th>이름</th>
+        <th>나이</th>
+        <th>소개</th>
+        <th>수정/삭제</th>
+          <tbody>
+          {% for friend in fList %}
+          <td>{{friend.id}}</td>
+          <td>{{friend.friend_name}}</td>
+          <td>{{friend.friend_age}}</td>
+          <td>{{friend.friend_bigo}}</td>
+          <td>
+              <input type="button" name="" value="수정"/>
+              <input type="button" name="" value="삭제"/><br>
+              
+          </td>
+          </tbody>
+          {%endfor%}<br>
+          <input type="text" name = "searchName"><input type="submit" value="검색">
+</body>
+</html>

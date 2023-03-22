@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시판</title>
+  </head>
+  <body>
+    <h1>게시판</h1>
+    <table>
+      <th>#</th>
+      <th>제목</th>
+      <th>글쓴이</th>
+      <th>작성일</th>
+      <th>조회수</th>
+      <!-- 리스트 내용 반복 -->
+      {% for b in board_list%}
+      <tr>
+        <td>{{ b.id }}</td>
+        <td><a href="read/{{b.id}}">{{ b.title }}</a></td>
+        <td>{{ b.writer }}</td>
+        <td>{{ b.input_date }}</td>
+        <td>{{ b.view_count }}</td>
+      </tr>
+      {%endfor%}
+    </table>
+    <form action="../find_friend/" method="post">
+      {%csrf_token%}
+      <input type="text" name="search_name" />
+      <input type="submit" value="검색" />
+    </form>
+  </body>
+</html>
