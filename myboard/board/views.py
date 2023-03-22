@@ -7,7 +7,7 @@ from .models import Board
 # views.py의 함수에 들어있는 request 파라미터 : 요청객체
 # 게시판 목록보기
 def index(request):
-    # print('index() 실행')
+    print('index() 실행')
     
     #반환되는 queryset에 대해서 order_by함수 이용하면 특정 필드 기준으로 정렬
     #order_by에 들어가는 필드 이름앞에 -를 붙이면 내림차순(DESC) 아니면 오름차순(ASC)
