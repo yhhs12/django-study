@@ -20,30 +20,26 @@
       {% for b in board_list%}
       <tr>
         <td>{{ b.id }}</td>
-        <td><a href="read/{{b.id}}">{{ b.title }}</a></td>
+        <td><a href="{{b.id}}">{{ b.title }}</a></td>
         <td>{{ b.writer }}</td>
-        <td>{{ b.input_date }}</td>
+        <td>{{ b.input_date |date:'Y/m/d H:i' }}</td>
         <td>{{ b.view_count }}</td>
       </tr>
       {%endfor%}
     </table>
-    <form action="find_board/" method="post">            
-            {%csrf_token%}
+    <a href="write/">글쓰기</a>
+    <form action="find_board/" method="post">
+      {%csrf_token%}
       <input type="radio" name="condition" value="all" checked="true" />완전일치
       <input type="radio" name="condition" value="part" />부분일치
       <input type="text" name="search_title" />
       <input type="submit" value="검색" />
     </form>
-    <a href="write_board.html/" >글쓰기</a>
-    
-      
-
-
-
- {% comment %} <form action="write_board/" method="POST">
-      {%csrf_token%}
-      <input type="submit" name="write" value="글쓰기" />  {% endcomment %}
-
-
   </body>
 </html>
+
+{% comment %}
+<form action="write_board/" method="POST">
+  {%csrf_token%}
+  <input type="submit" name="write" value="글쓰기" /> {% endcomment %}
+</form>

@@ -49,11 +49,57 @@ def find_board(request):
 
     return render(request, 'board/index.html', context)
 
-def delete_board(request, id):
-    Board.objects.get(id = id).delete()
-    return HttpResponseRedirect("../../board")
+def home(request):
+    return HttpResponseRedirect('/board/')
 
-# def create_board(request):
+
+def write(request):
+    if request.method == 'GET': #요청방식이 GET이면 화면표시
+        return render(request, 'board/board_form.html')
+    else: #요청방식이 POST일 때 할일 , 폼의 데이터를 DB에 저장
+        
+        #현재 세션정보의 writer라는 키를 가진 데이터 취득
+        title = request.POST['title']
+        content = request.POST['content']
+        
+        session_wrtier = request.session.get('writer')
+        if not session_wrtier: # 세션에 정보가 없는 경우
+            #폼에서 가져온 writer 값 저장
+            request.session['writer'] = writer
+        print(session_wrtier)        
+        
+       #객체.save()
+        #board = Board(
+        #    title = title,
+        #    writer = writer,
+        #    content = content
+        #)        
+        #board.save() #db에 insert
+        #return HttpResponseRedirect('/board/')
+        
+        
+       #모델.objects.create(값)
+        Board.objects.create(
+            title = title,
+            writer = request.session.get('writer'), #세션에 있는 값 저장
+            content = content
+        )
+         
+        return HttpResponseRedirect('/board/')
+        
+                                    
+        
+        
+
+#def update_board(request, id):
+    
+    
+
+# def delete_board(request, id):
+#     Board.objects.get(id = id).delete()
+#     return HttpResponseRedirect("../../board")
+
+
     
     
     
