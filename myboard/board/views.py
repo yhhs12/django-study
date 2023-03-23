@@ -86,9 +86,33 @@ def write(request):
         )
          
         return HttpResponseRedirect('/board/')
+
+def update(request, id):
+    board = Board.objects.get(id = id)
+    
+    if request.method == "GET":
+        context ={'board' : board }
+        return render(request, 'board/board_update.html', context)
+    
+    else:
+        board.title = request.POST['title']
+        board.writer = request.POST['writer']
+        board.content = request.POST['content']
         
-                                    
+        board.save()   
         
+    return HttpResponseRedirect('/board/')                                    
+
+
+def delete(request, id):
+    print(id)
+    
+    #해당 객체를 가져와서 삭제
+    Board.objects.get(id = id).delete() 
+       
+    
+    return HttpResponseRedirect('/board/')                                    
+            
         
 
 #def update_board(request, id):

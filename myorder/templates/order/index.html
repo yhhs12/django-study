@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>주문 등록시스템</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+  </head>
+  <body>
+    <h1>주문 등록 시스템</h1>
+    <table>
+      <th>id</th>
+      <th>주문일시</th>
+      <th>주문내역</th>
+      <th>금액</th>
+      <th>배달주소</th>
+      <!-- 리스트 내용 반복 -->
+      {% for o in order_list%}
+      <tr>
+        <td>{{ o.id }}</td>
+        <td>{{ o.order_date |date:'Y/m/d H:i' }}</td>
+        <td><a href="{{o.id}}">{{ o.order_text }}</a></td>
+        <td>{{ o.price }}</td>
+        <td>{{ o.address }}</td>
+      </tr>
+      {%endfor%}
+    </table>
+    <a href="add">주문하기</a>
+    <form action="find_ordertext/" method="post">
+      {%csrf_token%}
+      <input type="radio" name="condition" value="all" checked="true" />주문내역
+      검색 <input type="radio" name="condition" value="part" />주문내역 부분검색
+      <input type="text" name="search_content" />
+      <input type="submit" value="검색" />
+    </form>
+  </body>
+</html>
+
+{% comment %}
+<form action="write_board/" method="POST">
+  {%csrf_token%}
+  <input type="submit" name="write" value="글쓰기" /> {% endcomment %}
+</form>

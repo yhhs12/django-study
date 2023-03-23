@@ -9,14 +9,14 @@ urlpatterns = [
     # localhost8000/board/ 이면~
     path('', views.index),
     # 글읽기 주소 /board/0
-    path('<int:id>', views.read),
+    path('<int:id>/', views.read),
     path('find_board/', views.find_board),
     #글쓰기 주소
-    path('write/', views.write)
+    path('write/', views.write),
     #수정주소
-    path('<int:id>/update/', views.update)
+    path('<int:id>/update/', views.update),
     #삭제주소
-    path('<int:id>/delete/', views.delete)
+    path('<int:id>/delete/', views.delete),
     
     
     
