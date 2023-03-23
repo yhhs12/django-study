@@ -24,15 +24,15 @@ def find_ordertext(request):
     find_orderList = []
     if condition == "all":
         #전방 일치
-        find_orderList = Order.objects.filter(contenet = input_content)
+        find_orderList = Order.objects.filter(order_text = input_content)
 
         
     else:
         #부분 일치
-        find_orderList = Order.objects.filter(content__contains = input_content)       
+        find_orderList = Order.objects.filter(order_text__contains = input_content)       
 
     context = {
-        'ordertext' : find_orderList
+        'order_list' : find_orderList
     }
     return render(request, 'order/index.html', context)
 
