@@ -2,6 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from .models import Coffee
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
+
+
 
 # Create your views here.
 
@@ -82,4 +88,63 @@ def delete(request, id):
     Coffee.objects.get(id=id).delete()    
     
     return HttpResponseRedirect('/coffee/') 
+
+
+def logout(request):
+    request.session.pop('user', None)
+    return HttpResponseRedirect('/')
+   
+def login(request):
+    if request.method == 'GET':
+        return render(request, 'coffee/login_form.html')
+    
+    elif request.method == 'POST':
+        username = request.POST['userName']
+        password = request.POST['userPassword']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            request.session['user'] = username
+            return HttpResponseRedirect('home')
+        else:
+            error_message = "아이디나 비밀번호가 올바르지 않습니다."
+            return render(request, 'coffee/login_form.html', {'error_message': error_message})
+    else:
+        return render(request, 'coffee/login.html')
+    
+
+def signup(request):
+        if request.method == 'GET':
+            return render(request, 'coffee/signup_form.html')
+        
+        elif request.method == 'POST':
+            username = request.POST['userName']
+            password1 = request.POST['userPassword']
+            password2 = request.POST['userPassword2']
+            
+            if password1 != password2:
+                return render(request, 'signup.html', {'error': '비밀번호가 일치하지 않습니다'})
+            try:
+                user = User.objects.create_user(username=username, password=password1)
+                user.save()
+            except:
+                return render(request, 'coffee/signup_form.html', {'error': '회원가입 실패!'})
+            
+            return redirect('login/')
+        
+        
+        
+        
+        
+        # #응답 데이터
+        # res_data = {}
+        # #모든 필드를 채우지 않았을 경우
+        # if not (userName and password):
+        #     res_data['error'] = '모든 값을 입력해 주세요.'
+        # #모든 필드를 채웠을 경우
+        # else:
+        #     user = User.objects.get(userName=userName)
+        #     if check_password(password, user.password):
+        #         request.session['user'] = user.id
+        #         return HttpResponseRedirect('/')
+        
     
