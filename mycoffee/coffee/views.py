@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+from django.urls import reverse
 
 
 
@@ -99,17 +100,17 @@ def login(request):
         return render(request, 'coffee/login_form.html')
     
     elif request.method == 'POST':
-        username = request.POST['userName']
-        password = request.POST['userPassword']
+        username = request.POST.get('userName')
+        password = request.POST.get('userPassword')
         user = authenticate(request, username=username, password=password)
         if user is not None:
             request.session['user'] = username
-            return HttpResponseRedirect('home')
+            return HttpResponseRedirect(reverse('coffee'))
         else:
-            error_message = "아이디나 비밀번호가 올바르지 않습니다."
-            return render(request, 'coffee/login_form.html', {'error_message': error_message})
+            error_message = "로그인 실패"
+            return render(request, 'coffee/login.html', {'error_message': error_message})
     else:
-        return render(request, 'coffee/login.html')
+        return render(request, 'coffee/login.html', {'error_message': error_message})
     
 
 def signup(request):
@@ -122,17 +123,16 @@ def signup(request):
             password2 = request.POST['userPassword2']
             
             if password1 != password2:
-                return render(request, 'signup.html', {'error': '비밀번호가 일치하지 않습니다'})
+                return render(request, 'coffee/signup_form.html', {'error': '비밀번호가 일치하지 않습니다'})
             try:
                 user = User.objects.create_user(username=username, password=password1)
                 user.save()
             except:
                 return render(request, 'coffee/signup_form.html', {'error': '회원가입 실패!'})
             
-            return redirect('login/')
+            return redirect(reverse('coffee:login'))
         
-        
-        
+
         
         
         # #응답 데이터
