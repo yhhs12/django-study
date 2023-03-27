@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>[글쓰기]</title>
-  </head>
-  <body>
+    {% extends 'common/base.html' %}
+    {%block title%}[글쓰기]{%endblock title%}
+  
+  {%block body%}
     <h1>[글쓰기]</h1>
     <!-- 상위 디렉토리로 이동한 후에 write/ 호출-->
-    <form action="../write/" method="POST">
+    <form action="{%url 'write'%}" method="POST">
        {% csrf_token %}
       <table>
         <tr>
@@ -34,5 +29,4 @@
         </tr>
       </table>
     </form>
-  </body>
-</html>
+ {%endblock body%}

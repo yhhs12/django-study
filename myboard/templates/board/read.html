@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
+ {% extends 'common/base.html' %}
+    {%block title%}[글 목록]{%endblock title%}
+    
+    {%block body%}
     <table border="1">
       <tr>
         <th>{{board.id}}</th>
@@ -27,11 +22,10 @@
         <th>{{board.view_count}}</th>
       </tr>
 
-      <a href="update/">수정</a
+      <a href="{%url 'update' board.id %}">수정</a
       >&nbsp;&nbsp;
-      <a href="delete/">삭제</a
+      <a href="{%url 'delete' board.id %}">삭제</a
       >&nbsp;&nbsp;
-      <a href="../../board">글 목록</a>
+      <a href="{%url 'index'%}">글 목록</a>
     </table>
-  </body>
-</html>
+    {%endblock body%}

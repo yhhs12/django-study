@@ -21,7 +21,8 @@ def index(request):
     
     context = {
         'order_list' : order_list
-    }
+    }    
+                
     return render(request, 'coffee/index.html', context)
 
 def add(request):
@@ -131,6 +132,8 @@ def signup(request):
                 return render(request, 'coffee/signup_form.html', {'error': '회원가입 실패!'})
             
             return redirect(reverse('coffee:login'))
+        
+        
         
 
         

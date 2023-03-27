@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from board.views import home
+
+#from board.views import home
 
 urlpatterns = [
     # path('url', 실행할 기능)
@@ -24,7 +25,7 @@ urlpatterns = [
     # app/라는 주소가 실행되면 app폴더의 urls를 참조하라
     path('board/', include('board.urls')),
 
-    path('', home),
+    path('', include('common.urls')),
      
     
 ] # 리스트

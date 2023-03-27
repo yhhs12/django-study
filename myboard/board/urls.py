@@ -7,16 +7,16 @@ from . import views
 #board/urls.py
 urlpatterns = [
     # localhost8000/board/ 이면~
-    path('', views.index),
+    path('', views.index, name = 'index'),
     # 글읽기 주소 /board/0
-    path('<int:id>/', views.read),
-    path('find_board/', views.find_board),
+    path('<int:id>/', views.read, name = 'detail'),
+    # path('find_board/', views.find_board),
     #글쓰기 주소
-    path('write/', views.write),
-    #수정주소
-    path('<int:id>/update/', views.update),
-    #삭제주소
-    path('<int:id>/delete/', views.delete),
+    path('write/', views.write, name = 'write'),
+    #수정 주소
+    path('<int:id>/update/', views.update, name = 'update'),
+    #삭제 주소
+    path('<int:id>/delete/', views.delete , name = 'delete'),
     
     
     

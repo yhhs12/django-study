@@ -33,12 +33,13 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'django.contrib.auth',
+    'django.contrib.auth',  #장고 인증정보에 관한 앱
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'board.apps.BoardConfig',
+    'common.apps.CommonConfig',
 ]
 
 MIDDLEWARE = [
@@ -123,6 +124,7 @@ USE_TZ = False
 
 STATIC_URL = 'static/'
 
+# 별도 경로에서 static 파일을 읽어오게 하려면
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
@@ -131,3 +133,9 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 로그인 성공했을 대 리다이렉트 할 주소
+LOGIN_REDIRECT_URL = '/'
+
+# 로그아웃 성공했을 때 리다이렉트 할 주소
+LOGOUT_REDIRECT_URL = '/'
