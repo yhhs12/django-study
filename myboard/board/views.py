@@ -169,8 +169,9 @@ def delete(request, id):
     board = Board.objects.get(id = id)
     
     #글 작성자의 id와 접속한 사람의 id가 같을 때
-    if board.author.username == request.user.username:
-        board.delete()
+    if board.author.username != request.user.username:
+        return HttpResponseRedirect('/board/')
+    board.delete()
     #다를 때    
     return HttpResponseRedirect('/board/')                                    
             

@@ -78,7 +78,7 @@ def delete(request):
         request.user.delete()  #user정보 삭제
         
         #render나 redirect의 파라미터로 app_name:url_name 작성가능
-        return redirect('common:index')
+        return redirect('common:login')
     
 def update(request):
     if request.method == 'POST':

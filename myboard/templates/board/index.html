@@ -81,18 +81,18 @@
     <!-- 페이징 3 : 2를 개선한 버전-->
     {% for page_number in page_obj.paginator.page_range%}
     {% if page_number >= page_obj.number|add:-5 and page_number <= page_obj.number|add:5 %}
-    {%if searchWord%}
+    {% if searchWord%}
       <a href="?page={{page_number}}&searchType={{searchType}}&searchWord={{searchWord}}">{{page_number}}</a>
-    {%else%}
+    {% else%}
       {%if page_number == page_obj.number%}
       <a href="?page={{page_number}}" class="current">{{page_number}}</a>
-      {%else%}
+      {% else%}
       <a href="?page={{page_number}}" class="current">{{page_number}}</a>
-      {%endif%}
-    {%endif%}  
+      {% endif%}
+    {% endif%}  
     
-    {%endif%}
-    {%endfor%}
+    {% endif%}
+    {% endfor%}
     <br>       
     <a href="{%url 'board:write'%}">글쓰기</a>
   {% endblock body%}

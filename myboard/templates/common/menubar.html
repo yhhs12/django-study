@@ -6,6 +6,7 @@
     <a href = "{% url 'common:login'%}">로그인</a>&nbsp;&nbsp;
     
     {% elif user.is_authenticated%}
+    <a href = "{% url 'common:read'%}">내 정보보기</a>&nbsp;&nbsp;
     <a href = "{% url 'common:logout'%}">로그아웃</a>&nbsp;&nbsp;
     {% endif%}
     <!-- 아래의 호출법은 주소를 하드코딩하는게 아니라-->
