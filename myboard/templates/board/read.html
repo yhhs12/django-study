@@ -2,6 +2,7 @@
     {% block title %}[글 목록]{% endblock title %}
     
     {% block body %}
+    
     <table border="1">
       <tr>
         <th>{{board.id}}</th>
@@ -21,12 +22,17 @@
       <tr>
         <th>{{board.view_count}}</th>
       </tr>
+
+      <!-- username끼리 비교하려면-->
+      {% if board.author.username == user.username %}
       {% if user.is_authenticated %}
         <a href="{%url 'board:update' board.id %}">수정</a
         >&nbsp;&nbsp;
         <a href="{%url 'board:delete' board.id %}">삭제</a
         >&nbsp;&nbsp;
       {% endif %}
-      <a href="{%url 'board:index'%}">글 목록</a>
+      {% endif %}
+      <!-- board.author는 user하고 비교한다 -->
+      <a href="{%url 'board:index'%}">글 목록 </a>
     </table>
     {% endblock body %}

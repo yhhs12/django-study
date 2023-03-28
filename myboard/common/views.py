@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login
 # 장고가 제공하는 기본 회원가입 폼
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.decorators import login_required    
+
 
 #우리가 만든 커스텀 회원가입 폼
-from .forms import UserForm
+from .forms import UserForm, CustomChangeForm
 
 # Create your views here.
 
@@ -70,3 +72,25 @@ def signup_custom(request):
         form = UserForm()  #새 폼 만들어주기
         
     return render(request, 'common/signup.html', {'form' : form})
+
+def delete(request):
+    if request.user.is_authenticated:
+        request.user.delete()  #user정보 삭제
+        
+        #render나 redirect의 파라미터로 app_name:url_name 작성가능
+        return redirect('common:index')
+    
+def update(request):
+    if request.method == 'POST':
+        form = CustomChangeForm(request.POST, instance=request.user)
+        
+        if form.is_valid():
+            form.save()  #폼이 유효하다면 해당내용 저장
+            return redirect('common:index')
+    else:
+        #CustomChangeForm(instance)가 보내지면 django가 제공하는 기본속성사용
+        form = CustomChangeForm()    
+        return render(request, 'common/update.html', {'form' : form})
+    
+def read(request):
+    return render(request, 'common/update.html')

@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    
 </head>
 <body>
     <h1>안녕하세요~</h1>
@@ -25,12 +26,16 @@
             <a href="{%url 'common:signup'%}">회원가입</a>
         </li>
         <li>
-            <a href="{%url 'common:login'%}">로그인</a>
+            <a href="{% url 'common:login' %}">로그인</a>
         </li>
         {% elif user.is_authenticated %}    
         <li>
-            <a href="{%url 'common:logout'%}">로그아웃</a>
+            <a href="{% url 'common:logout' %}">로그아웃</a>
         </li>
+        <li>
+            <a href="{% url 'common:read' %}">회원정보수정</a>
+        </li>
+        
         {% endif%}
         <li>
             <!-- app_name : url_name-->

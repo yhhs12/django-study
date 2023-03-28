@@ -2,13 +2,15 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required    
+    
 from .models import Board
 
 # Create your views here.
 # views.py의 함수에 들어있는 request 파라미터 : 요청객체
 # 게시판 목록보기
 def index(request):
-    print('index() 실행')
+    # print('index() 실행')
     
     #반환되는 queryset에 대해서 order_by함수 이용하면 특정 필드 기준으로 정렬
     #order_by에 들어가는 필드 이름앞에 -를 붙이면 내림차순(DESC) 아니면 오름차순(ASC)
@@ -98,7 +100,8 @@ def find_board(request):
 def home(request):
     return HttpResponseRedirect('/board/')
 
-
+#내가 따로 만든 로그인 url이 있다면 login_url키워드를 지정해야한다.
+@login_required(login_url='common:login')
 def write(request):
     if request.method == 'GET': #요청방식이 GET이면 화면표시
         return render(request, 'board/board_form.html')
@@ -108,7 +111,9 @@ def write(request):
         #현재 세션정보의 writer라는 키를 가진 데이터 취득
         title = request.POST['title']
         content = request.POST['content']
-        print(request.user)
+        #요청에 들어있는 User 객체
+        author = request.user
+        
         
         # session_wrtier = request.session.get('writer')
         # if not session_wrtier: # 세션에 정보가 없는 경우
@@ -127,16 +132,21 @@ def write(request):
         
         
        #모델.objects.create(값)
-        # Board.objects.create(
-        #     title = title,
-        #     writer = request.session.get('writer'), #세션에 있는 값 저장
-        #     content = content
-        # )
+        Board.objects.create(
+            title = title,
+            content = content,
+            author = author
+        )
          
         return HttpResponseRedirect('/board/')
 
+@login_required(login_url='common:login')
 def update(request, id):
     board = Board.objects.get(id = id)
+    
+    #글쓴이와 현재 접속한 사용자의 username이 다르면 목록으로 리다이렉트해줌
+    if board.author.username != request.user.username:
+        return HttpResponseRedirect('/board/')
     
     if request.method == "GET":
         context ={'board' : board }
@@ -144,21 +154,24 @@ def update(request, id):
     
     else:
         board.title = request.POST['title']
-        board.writer = request.POST['writer']
         board.content = request.POST['content']
-        
+            
         board.save()   
         
     return HttpResponseRedirect('/board/')                                    
 
 
+@login_required(login_url='common:login')
 def delete(request, id):
     print(id)
     
-    #해당 객체를 가져와서 삭제
-    Board.objects.get(id = id).delete() 
-       
+    #해당 객체를 가져오기
+    board = Board.objects.get(id = id)
     
+    #글 작성자의 id와 접속한 사람의 id가 같을 때
+    if board.author.username == request.user.username:
+        board.delete()
+    #다를 때    
     return HttpResponseRedirect('/board/')                                    
             
         

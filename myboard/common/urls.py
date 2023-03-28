@@ -15,4 +15,12 @@ urlpatterns = [
     # 회원가입
     # path('signup/', common_view.signup)
     path('signup/', common_view.signup_custom, name = 'signup'),
+    
+    #회원삭제
+    path('delete/', common_view.delete, name = 'delete'),
+    
+    #회원수정
+    path('update/', common_view.update, name = 'update'),
+    path('read/', common_view.read, name = 'read'),
+    
 ]
