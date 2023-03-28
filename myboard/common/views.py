@@ -19,8 +19,11 @@ def index(request):
     return render(request, "common/index.html")
 
 def signup(request):
-    
-    if request.method == 'POST':
+    if request.method == 'GET':
+        form = UserCreationForm()
+        
+    else:
+        # request.method == 'POST'
         #요청 객체가 담고 있는 정보로 사용자 생성 폼 만든다.
         print(request.POST)
         form = UserCreationForm(request.POST)
@@ -39,15 +42,17 @@ def signup(request):
             login(request, user)
             
             return redirect('/')
-    else:
+    
         #GET 방식으로 요청이 오면 비어있는 사용자 생성 폼을 만든다.
-        form = UserCreationForm()
+        
     
     return render(request, 'common/signup.html', {'form' : form})
 
 def signup_custom(request):
-    if request.method == "POST":
-        print(request.POST)    #QueryDict 한번 보기
+    if request.method == "GET":
+        form = UserForm()  #새 폼 만들어주기
+    else:  #request.method == "POST"
+        #print(request.POST)    #QueryDict 한번 보기
         
         #request.POST에 들어있는 정보를 UserForm 형식으로 변환 
         form = UserForm(request.POST)
@@ -66,10 +71,7 @@ def signup_custom(request):
             user = authenticate(username=username, password=raw_password, first_name=first_name, last_name=last_name)
             login(request, user)
             
-            return redirect('/')  #로그인 후 메인 페이지로 넘김
-
-    else: #요청이 get일때
-        form = UserForm()  #새 폼 만들어주기
+            return redirect('/')  #로그인 후 메인 페이지로 넘김  
         
     return render(request, 'common/signup.html', {'form' : form})
 
@@ -81,16 +83,18 @@ def delete(request):
         return redirect('common:login')
     
 def update(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
+        #CustomChangeForm(instance)가 보내지면 django가 제공하는 기본속성사용
+        form = CustomChangeForm()     
+    else:
         form = CustomChangeForm(request.POST, instance=request.user)
         
         if form.is_valid():
             form.save()  #폼이 유효하다면 해당내용 저장
             return redirect('common:index')
-    else:
-        #CustomChangeForm(instance)가 보내지면 django가 제공하는 기본속성사용
-        form = CustomChangeForm()    
-        return render(request, 'common/update.html', {'form' : form})
+        
+    return render(request, 'common/update.html', {'form' : form})
+    
     
 def read(request):
     return render(request, 'common/update.html')

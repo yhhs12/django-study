@@ -63,8 +63,7 @@ def index(request):
     # context['board_list'] = result  
     # 페이징 한 일부 목록을 반환          
     context['page_obj'] = page_obj
-
-    
+        
     return render(request, 'board/index.html', context)
 
 def read(request, id):
@@ -105,8 +104,8 @@ def home(request):
 def write(request):
     if request.method == 'GET': #요청방식이 GET이면 화면표시
         return render(request, 'board/board_form.html')
-    else: #요청방식이 POST일 때 할일 , 폼의 데이터를 DB에 저장
-        
+    else: 
+        #요청방식이 POST일 때 할일 , 폼의 데이터를 DB에 저장       
         
         #현재 세션정보의 writer라는 키를 가진 데이터 취득
         title = request.POST['title']
