@@ -22,18 +22,19 @@
     <ul>
         {% if not user.is_authenticated%}
         <li>
-            <a href="signup/">회원가입</a>
+            <a href="{%url 'common:signup'%}">회원가입</a>
         </li>
         <li>
-            <a href="login/">로그인</a>
+            <a href="{%url 'common:login'%}">로그인</a>
         </li>
         {% elif user.is_authenticated %}    
         <li>
-            <a href="logout/">로그아웃</a>
+            <a href="{%url 'common:logout'%}">로그아웃</a>
         </li>
-        {%endif%}
+        {% endif%}
         <li>
-            <a href="board/">게시판으로 가기</a>
+            <!-- app_name : url_name-->
+            <a href="{%url 'board:index'%}">게시판으로 가기</a>
         </li>
     </ul>
 </body>

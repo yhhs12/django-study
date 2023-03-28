@@ -104,15 +104,17 @@ def write(request):
         return render(request, 'board/board_form.html')
     else: #요청방식이 POST일 때 할일 , 폼의 데이터를 DB에 저장
         
+        
         #현재 세션정보의 writer라는 키를 가진 데이터 취득
         title = request.POST['title']
         content = request.POST['content']
+        print(request.user)
         
-        session_wrtier = request.session.get('writer')
-        if not session_wrtier: # 세션에 정보가 없는 경우
-            #폼에서 가져온 writer 값 저장
-            request.session['writer'] = writer
-        print(session_wrtier)        
+        # session_wrtier = request.session.get('writer')
+        # if not session_wrtier: # 세션에 정보가 없는 경우
+        #     #폼에서 가져온 writer 값 저장
+        #     request.session['writer'] = writer
+        # print(session_wrtier)        
         
        #객체.save()
         #board = Board(
@@ -125,11 +127,11 @@ def write(request):
         
         
        #모델.objects.create(값)
-        Board.objects.create(
-            title = title,
-            writer = request.session.get('writer'), #세션에 있는 값 저장
-            content = content
-        )
+        # Board.objects.create(
+        #     title = title,
+        #     writer = request.session.get('writer'), #세션에 있는 값 저장
+        #     content = content
+        # )
          
         return HttpResponseRedirect('/board/')
 

@@ -3,8 +3,10 @@ from django.urls import path
 
 # 현재 패키지에서 views를 import하세요~
 from . import views
-
 #board/urls.py
+
+app_name = 'board'
+
 urlpatterns = [
     # localhost8000/board/ 이면~
     path('', views.index, name = 'index'),

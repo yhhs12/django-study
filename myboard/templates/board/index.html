@@ -1,11 +1,11 @@
   {# common/base.html을 상속받겠음#}
   {% extends 'common/base.html'%}
-  {% block title%}[게시판]{%endblock title%}
+  {% block title%}[게시판]{% endblock title%}
     
   </head>
   {% block body%}
     <h1>게시판</h1>
-    {%if page_obj%}
+    {% if page_obj%}
         <table >
           <tr>
             <th>#</th><th>제목</th><th>글쓴이</th><th>작성일</th><th>조회수</th>
@@ -16,10 +16,11 @@
           <td>
             <!-- 파라미터가 있는 주소를 호출할 때 -->
             <!-- name 뒤에 한칸띄우고 파라미터의 값 지정 -->
-            <a href="{%url 'detail' board.id%}">{{board.title}}</a>
+            <a href="{%url 'board:detail' board.id%}">{{board.title}}</a>
             
           </td>
-          <td>{{board.writer}}</td>
+          <!--아래 3개중에서 하나 택1해도됨-->
+          <td>{{board.author}} {{board.author.id}} {{board.author.username}}</td>  
           <td>{{board.input_date}}</td>
           <td>{{board.view_count}}</td>
       </tr>
@@ -53,10 +54,10 @@
       
     </form>
     <!-- 페이징 -->
-    {%if page_obj.has_previous%}
-    <a href="?page=1">&lquao;처음 페이지로</a>
-    <a href="?page={{page_obj.previous_page_number}}">이전 페이지로</a>    
-    {%endif%}
+    {% if page_obj.has_previous%}
+    <a href="{% url 'board:index' page=1 %}">&lquao;처음 페이지로</a>
+    <a href="{% url 'board:index' page=page_obj.previous_page_number%}">이전 페이지로</a>    
+    {% endif%}
 
     <!-- Paginaor의 number 현재 페이지 번호 -->
     <!-- num_pages는 전체 페이지 수-->
@@ -65,14 +66,14 @@
     {% if page_obj.has_next %}
       <a href = "?page={{page_obj.next_page_number}}">다음 페이지로</a> 
       <a href = "?page={{page_obj.paginator.num_pages}}">마지막 페이지로 &raquo;</a> 
-    {%endif%}
+    {% endif%}
     <br>
 
     <!-- 페이징 2 : 가지고 있는 페이지의 번호 다 보여주기-->
-    {%for page_number in page_obj.paginator.page_range%}
-        {%if page_number == page_obj.number%}
+    {% for page_number in page_obj.paginator.page_range%}
+        {% if page_number == page_obj.number%}
           <span class ="current"></span>
-          {%endif%}
+          {% endif%}
         <a href = "?page={{page_number}}">{{page_number}}</a> &nbsp;
     {%endfor%}
     <br>
@@ -93,7 +94,7 @@
     {%endif%}
     {%endfor%}
     <br>       
-    <a href="{%url 'write'%}">글쓰기</a>
+    <a href="{%url 'board:write'%}">글쓰기</a>
   {% endblock body%}
 
 

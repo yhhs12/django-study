@@ -1,12 +1,12 @@
 {% extends 'common/base.html'%}
-{% block title%}[글쓰기]{%endblock title%}
+{% block title%}[글쓰기]{% endblock title%}
     
   </head>
   <body>
     <h1>글 쓰기</h1>
-    <form action="../create_board/" method="post">
-      {%csrf_token%} 제목 : <input type="text" name="title" /><br />
+    <form action="{%url 'board:write' %}" method="post">
+     {% csrf_token %} 제목 : <input type="text" name="title" /><br />
       내용 : <textarea cols="50" rows="3" name="content"></textarea><br />
       <input type="submit" value="글쓰기" />
     </form>
-    {%endblock body%}
+    {% endblock body %}
