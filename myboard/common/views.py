@@ -18,6 +18,7 @@ def index(request):
     
     return render(request, "common/index.html")
 
+#회원가입(username, password1)
 def signup(request):
     if request.method == 'GET':
         form = UserCreationForm()
@@ -48,12 +49,10 @@ def signup(request):
     
     return render(request, 'common/signup.html', {'form' : form})
 
+#회원가입(username, password1, first_name, last_name)
 def signup_custom(request):
-    if request.method == "GET":
-        form = UserForm()  #새 폼 만들어주기
-    else:  #request.method == "POST"
-        #print(request.POST)    #QueryDict 한번 보기
-        
+    if request.method == "POST":
+        print(request.POST)    #QueryDict 한번 보기
         #request.POST에 들어있는 정보를 UserForm 형식으로 변환 
         form = UserForm(request.POST)
         
@@ -66,14 +65,19 @@ def signup_custom(request):
             raw_password = form.cleaned_data.get('password1')
             first_name = form.cleaned_data.get('first_name')
             last_name = form.cleaned_data.get('last_name')
-
             #사용자 인증 후 로그인
             user = authenticate(username=username, password=raw_password, first_name=first_name, last_name=last_name)
             login(request, user)
+            return redirect('/')  #로그인 후 메인 페이지로 넘김
+
+    else: #요청이 get일때
+        form = UserForm()  #새 폼 만들어주기
             
-            return redirect('/')  #로그인 후 메인 페이지로 넘김  
-        
-    return render(request, 'common/signup.html', {'form' : form})
+        return render(request, 'common/signup.html', {'form' : form})
+
+    
+    
+
 
 def delete(request):
     if request.user.is_authenticated:
@@ -82,6 +86,7 @@ def delete(request):
         #render나 redirect의 파라미터로 app_name:url_name 작성가능
         return redirect('common:login')
     
+# @login_required(login_url='/login')    
 def update(request):
     if request.method == 'GET':
         #CustomChangeForm(instance)가 보내지면 django가 제공하는 기본속성사용
@@ -94,7 +99,6 @@ def update(request):
             return redirect('common:index')
         
     return render(request, 'common/update.html', {'form' : form})
-    
     
 def read(request):
     return render(request, 'common/update.html')
