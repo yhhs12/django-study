@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function confirmDelete(){
+            let c = confirm("정말 삭제하시겠습니까?")
+            
+            if(c) {
+                location.href = '/delete/'
+            }
+            //정말 삭제?
+            //네 -> 삭제
+            //아니요 -> 가만히 있기
+        }
+    </script>
+</head>
+<body>
+    <form action = "{% url 'common:update' %}" method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>아이디</th>
+                <td>{{user.username}}</td>
+            </tr>
+            <tr>
+                <th>성</th>
+                <td><input type="text" name="first_name" value={{user.first_name}}></td>
+            </tr>
+            <tr>
+                <th>이름</th>
+                <td><input type="text" name="last_name" value={{user.last_name}}></td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td><input type="text" name="email" value={{user.email}}></td>
+            </tr>
+        </table>
+        <input type="submit" value= "정보수정">
+        <button onclick="confirmDelete()">회원 탈퇴</button>
+        
+    </form>  
+</body>
+</html>

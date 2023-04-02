@@ -1,0 +1,26 @@
+{% extends 'common/base.html' %}
+{% block title %}[글 목록]{% endblock title%}
+    
+{% block body %}
+    <table border="1">
+      <tr>
+        <th>{{requst.id}}</th>
+      </tr>
+      <tr>
+        <th>{{requst.title}}</th>
+      </tr>
+      <tr>
+        <th>{{requst.content}}</th>
+      </tr>
+      <tr>
+        <th>{{requst.wrtite}}</th>
+      </tr>
+      <tr>
+        <th>{{requst.input_date}}</th>
+      </tr>
+      <tr>
+        <th>{{requst.view_count}}</th>
+      </tr>
+    </table>
+    <input type="submit" value="수정" />
+    {% endblock body %}

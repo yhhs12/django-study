@@ -1,4 +1,4 @@
-"""myboard URL Configuration
+"""myrequest URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -16,16 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-#from board.views import home
 
 urlpatterns = [
-    # path('url', 실행할 기능)
-    path('admin/', admin.site.urls),
     
-    # app/라는 주소가 실행되면 app폴더의 urls를 참조하라
-    path('board/', include('board.urls')),
-
+    path('admin/', admin.site.urls),
+    # path('request/', include('request.urls')),
+    # path('', include('request.urls')),
+    
+    path('request/', include('request.urls')),
     path('', include('common.urls')),
 
     
-] # 리스트
+    
+]

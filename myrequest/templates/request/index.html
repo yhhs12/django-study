@@ -1,0 +1,130 @@
+  {# common/base.html을 상속받겠음#}
+  {% extends 'common/base.html'%}
+  {% block title%}[게시판]{% endblock title%}
+    
+  </head>
+  {% block body%}
+  <script>
+    $(document).ready(function(){
+      //alert("하이~");
+    });
+
+    function callFunction(){
+      let data = {'txt': 'hello'};
+      //AJAX로 서버와 통신을 할 때에도 CSRF토큰이 있어야 한다.
+      $.ajax({
+        url: '/request/callAjax/', 
+        type: 'post',
+        headers: {'X-CSRFTOKEN': '{{csrf_token}}'},
+        data: JSON.stringify(data),  //JS객체를 문자열화 
+        success: function(res){
+          console.log(res);
+          console.log(res.result);  //res 객체에 들어있는 result라는 필드
+          console.log("성공했음");
+        }
+      });9
+    }         
+      
+  </script>
+    <h1>게시판</h1>
+    {% if page_obj%}
+        <table >
+          <tr>
+            <th>#</th><th>제목</th><th>글쓴이</th><th>작성일</th><th>조회수</th>
+          </tr>
+    {% for request in page_obj%}
+      <tr>
+          <td>{{request.id}}</td>
+          <td>
+            <!-- 파라미터가 있는 주소를 호출할 때 -->
+            <!-- name 뒤에 한칸띄우고 파라미터의 값 지정 -->
+            <a href="{%url 'request:detail' request.id%}">{{request.title}}</a>
+            
+          </td>
+          <!--아래 3개중에서 하나 택1해도됨-->
+          <td>{{request.author}} {{request.author.id}} {{request.author.username}}</td>  
+          <td>{{request.input_date}}</td>
+          <td>{{request.view_count}}</td>
+      </tr>
+
+    {% endfor %}
+  </table>
+  {%else%}
+    <p>게시글이 존재하지 않습니다.</p>
+  {%endif%}
+    <!--검색하기-->   
+    <form>
+      <select name="searchType">
+        {% if searchType == 'title'%}
+        <option value="title" selected="selected">제목</option>
+        {% else %}
+        <option value="title">제목</option>
+        {% endif %} {% if searchType == 'writer'%}
+        <option value="writer" selected="selected">글쓴이</option>
+        {% else %}
+        <option value="writer">글쓴이</option>
+        {% endif %} {% if searchType == 'content'%}
+        <option value="content" selected="selected">내용</option>
+        {% else %}
+        <option value="content">내용</option>
+        {% endif %}
+
+      </select>
+      <input type="text" name="searchWord" value="{{searchWord}}" />
+      <input type="submit" value="검색" />
+      
+      
+    </form>
+    <!-- 페이징 -->
+    {% if page_obj.has_previous%}
+    <a href="{% url 'request:index' page=1 %}">&lquao;처음 페이지로</a>
+    <a href="{% url 'request:index' page=page_obj.previous_page_number%}">이전 페이지로</a>    
+    {% endif%}
+
+    <!-- Paginaor의 number 현재 페이지 번호 -->
+    <!-- num_pages는 전체 페이지 수-->
+    Page {{page_obj.number }} of {{page_obj.paginator.num_pages}}
+
+    {% if page_obj.has_next %}
+      <a href = "?page={{page_obj.next_page_number}}">다음 페이지로</a> 
+      <a href = "?page={{page_obj.paginator.num_pages}}">마지막 페이지로 &raquo;</a> 
+    {% endif%}
+    <br>
+
+    <!-- 페이징 2 : 가지고 있는 페이지의 번호 다 보여주기-->
+    {% for page_number in page_obj.paginator.page_range%}
+        {% if page_number == page_obj.number%}
+          <span class ="current"></span>
+          {% endif%}
+        <a href = "?page={{page_number}}">{{page_number}}</a> &nbsp;
+    {%endfor%}
+    <br>
+
+    <!-- 페이징 3 : 2를 개선한 버전-->
+    {% for page_number in page_obj.paginator.page_range%}
+    {% if page_number >= page_obj.number|add:-5 and page_number <= page_obj.number|add:5 %}
+    {% if searchWord%}
+      <a href="?page={{page_number}}&searchType={{searchType}}&searchWord={{searchWord}}">{{page_number}}</a>
+    {% else%}
+      {%if page_number == page_obj.number%}
+      <a href="?page={{page_number}}" class="current">{{page_number}}</a>
+      {% else%}
+      <a href="?page={{page_number}}" class="current">{{page_number}}</a>
+      {% endif%}
+    {% endif%}  
+    
+    {% endif%}
+    <br>
+    
+    {% endfor%}
+    <br>       
+    <a href="{%url 'request:write'%}">글쓰기</a>
+    <input type="button" value="눌러봐" onclick="callFunction();" />
+  {% endblock body%}
+
+
+{% comment %}
+<form action="write_request/" method="POST">
+  {%csrf_token%}
+  <input type="submit" name="write" value="글쓰기" /> {% endcomment %}
+

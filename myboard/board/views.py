@@ -33,7 +33,7 @@ def index(request):
         search_word = request.GET['searchWord'] #HTML의 name 속성
         
         
-        print("seach_type : {}, search_word : {}".format(search_type, search_word))
+        print("search_type : {}, search_word : {}".format(search_type, search_word))
         
         #match : Java의 switch랑 비슷함   
         match search_type:
@@ -127,7 +127,7 @@ def write(request):
         #     request.session['writer'] = writer
         # print(session_wrtier)        
         
-       #객체.save()
+        #객체.save()
         #board = Board(
         #    title = title,
         #    writer = writer,
@@ -137,13 +137,13 @@ def write(request):
         #return HttpResponseRedirect('/board/')
         
         
-       #모델.objects.create(값)
+        #모델.objects.create(값)
         Board.objects.create(
             title = title,
             content = content,
             author = author
         )
-         
+        
         return HttpResponseRedirect('/board/')
 
 @login_required(login_url='common:login')
@@ -372,14 +372,14 @@ def load_reply(request):
 #         #문자열 하나 보내기
 #        'item' : "This text is sent from server.",
 #        'name' : "김동현",
-       
+    
 #         # 리스트 보내기
 #        'board_list' : [
 #            {'title' : '1등', 'writer' : '홍길동'},
 #            {'title' : '2등', 'writer' : '전우치'},           
 #            {'title' : '3등', 'writer' : '사오정'}           
 #        ],
-       
+    
 #         #딕셔너리 보내기
 #        'mydata' : {
 #        'name' : '김동현',

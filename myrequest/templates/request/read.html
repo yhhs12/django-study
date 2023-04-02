@@ -4,7 +4,7 @@
   {% block body %}
   <script>
     function showUpdateForm(param){
-      //.../board/0/update_reply?rid=0
+      //.../request/0/update_reply?rid=0
       location.href='update_reply?rid=' + param;
     }
 
@@ -14,10 +14,10 @@
 
       });
     function loadReplyList() {
-      let bNum = '{{ board.id }}';
+      let bNum = '{{ request.id }}';
       console.log(bNum);
       $.ajax ({
-        url: '/board/load_reply/',
+        url: '/request/load_reply/',
         type: 'post',
         headers: {'X-CSRFTOKEN' : '{{csrf_token}}'},
         data: { 'id' : bNum },
@@ -44,30 +44,30 @@
     </script>
     <table border="1">
       <tr>
-        <th>{{board.id}}</th>
+        <th>{{request.id}}</th>
       </tr>
       <tr>
-        <th>{{board.title}}</th>
+        <th>{{request.title}}</th>
       </tr>
       <tr>
-        <th>{{board.content}}</th>
+        <th>{{request.content}}</th>
       </tr>
       <tr>
-        <th>{{board.wrtite}}</th>
+        <th>{{request.wrtite}}</th>
       </tr>
       <tr>
-        <th>{{board.input_date}}</th>
+        <th>{{request.input_date}}</th>
       </tr>
       <tr>
-        <th>{{board.view_count}}</th>
+        <th>{{request.view_count}}</th>
       </tr>
 
       <!-- username끼리 비교하려면-->
       {% if board.author.username == user.username %}
       {% if user.is_authenticated %}
-        <a href="{%url 'board:update' board.id %}">수정</a
+        <a href="{%url 'request:update' board.id %}">수정</a
         >&nbsp;&nbsp;
-        <a href="{%url 'board:delete' board.id %}">삭제</a
+        <a href="{%url 'request:delete' board.id %}">삭제</a
         >&nbsp;&nbsp;
       {% endif %}
       {% endif %}
@@ -76,11 +76,11 @@
           <!--댓글 목록 표시-->
           <!-- board 객체 뿐만 아니라 board와 FK로 엮인 객체는-->
           <!-- board.모델이름_set으로 가져올 수 있다.-->
-          {% if board.reply_set %}
-            {% for reply in board.reply_set.all %}
+          {% if request.reply_set %}
+            {% for reply in request.reply_set.all %}
               {{ reply }}&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="#" onclick = "javascript:showUpdateForm('{{reply.id}}')">수정</a>
-                <a href="{% url 'board:delete_reply' id=board.id rid=reply.id %}">삭제</a>
+                <a href="{% url 'request:delete_reply' id=request.id rid=reply.id %}">삭제</a>
               <br>
             {% endfor%}
           {% else %}
@@ -91,7 +91,7 @@
           <!--댓글 입력 폼 표시-->
           <div id = "replyForm">
             {% if not update%}  <!-- context에 update에 대한 값을 찾지 못했을 때-->
-              <form action ="{% url 'board:write_reply' board.id %}" method = "post">
+              <form action ="{% url 'request:write_reply' id=request.id %}" method = "post">
                   {% csrf_token %}
                   <textarea name ="replyText"></textarea>
                   <input type = "submit" value="댓글쓰기"/>
@@ -109,6 +109,6 @@
         </div>
       </div>
       <!-- board.author는 user하고 비교한다 -->
-      <a href="{%url 'board:index'%}">글 목록 </a>
+      <a href="{%url 'request:index'%}">글 목록 </a>
     </table>
     {% endblock body %}
