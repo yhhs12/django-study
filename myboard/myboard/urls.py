@@ -16,6 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+# 현재 프로젝트의 settings.py 의미한다.
+from django.conf import settings  
+from django.conf.urls.static import static  
+
 #from board.views import home
 
 urlpatterns = [
@@ -28,4 +32,5 @@ urlpatterns = [
     path('', include('common.urls')),
 
     
-] # 리스트
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+# 리스트

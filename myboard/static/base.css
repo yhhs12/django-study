@@ -17,3 +17,8 @@ a {
 a:hover {
   color: lime;
 }
+
+.replyCount{
+  text-decoration: none;
+  color:red;
+}

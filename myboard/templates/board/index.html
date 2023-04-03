@@ -38,7 +38,13 @@
           <td>
             <!-- 파라미터가 있는 주소를 호출할 때 -->
             <!-- name 뒤에 한칸띄우고 파라미터의 값 지정 -->
-            <a href="{%url 'board:detail' board.id%}">{{board.title}}</a>
+            <a href="{%url 'board:detail' board.id%}">
+              {{ board.title }}&nbsp;
+              <span class="replyCount">{{ board.reply_set.all.count }}</span>
+              {% if board.attached_file %}
+              <span><첨부파일 있다></span>
+              {% endif %}
+            </a>
             
           </td>
           <!--아래 3개중에서 하나 택1해도됨-->
