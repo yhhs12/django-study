@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[주문하기]</title>
+  </head>
+  <body>
+    <h1>[주문하기]</h1>
+    <!-- 상위 디렉토리로 이동한 후에 write/ 호출-->
+    <form action="../add/" method="POST">
+       {% csrf_token %}
+      <table>
+        <tr>
+          <th>주문내역</th>
+          <td><input type="text" name="item" /></td>
+        </tr>
+        <!--세션에 writer가 없으면 해당 tr 표시됨-->
+        <!--세션에 writer가 있으면 해당 tr 표시 안됨-->
+        
+        <tr>
+          <th>개수</th>
+          <td><input type="text" name="quantity" /></td>
+        </tr>    
+
+        
+        <tr>
+        <input type="submit" value="주문하기" /></th>
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>
