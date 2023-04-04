@@ -4,7 +4,7 @@
   {%block body%}
     <h1>[글쓰기]</h1>
     <!-- 상위 디렉토리로 이동한 후에 write/ 호출-->
-    <form action="{%url 'board:write'%}" method="POST" enctype="multipart/form-data">
+    <form action="{%url 'board:write'%}" method="POST" enctype="multipart/form-data" onsubmit = "return validate();"> 
        {% csrf_token %}
       <table>
         <tr>
