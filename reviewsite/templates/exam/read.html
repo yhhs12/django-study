@@ -8,27 +8,50 @@
 </head>
 <body>
     <h1>[{{ movie.movie_name }}]에 대한 정보입니다</h1>
-    <form action = "../{{movie.id}}/update/" method="get">
-        <table>
-            <tr>
-                <th>장르</th>
-                <td>{{movie.genre}}</td>
-            </tr>
-            <tr>
-                <th>영화 설명</th>
-                <td>{{movie.movie_summary}}</td>
-            </tr>
-            <tr>
-                <th>관객 평점</th>
-                <td></td>
-            </tr>
-        </table>
-        <br>
-        <input type="submit" value= "영화정보수정">
+    <form action = "../{{movie.id}}/update/" method="get">        
+    <h2>장르 : {{movie.genre}}</h2>                
+    <h3>영화 설명 : {{movie.movie_summary}}</h3>                
+    {% if review %}
+    <h2>관객 평점 : {{ review.score }}</h2>
+    {% else %}
+    <h2>관객 평점 : 리뷰가 없습니다.</h2>
+    {% endif %}
+    <br>
+    <input type="submit" value= "영화정보수정">
     </form>  
-    <h1>[{{ movie.movie_name }}] 관객 리뷰</h1>
-        
 
+    <h1>[{{ movie.movie_name }}] 관객 리뷰</h1>
+    
+    <table border="2">
+    {% if review_list %}
+        {% for r in review_list %}
+        <tr>
+            <td>{{ r.reviewer_name }}</td>
+            <td>{{ r.review_text }}</td>
+            <td>{{ r.score }}</td>
+            <td>{{ r.reg_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+        {% else %}
+        <p>등록된 리뷰가 없습니다..</p>
+        {% endif %}
         
+    
+    <br>        
+          
+    <form action="../{{movie.id}}/write_review/" method="post">
+        {%csrf_token%}
+        <label for="nickname"></label>
+        <input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력하세요">
+        
+        <label for="description"></label>
+        <textarea id="description" name="description" rows="4" cols="50" placeholder="설명을 입력하세요"></textarea>
+        
+        <label for="score"></label>
+        <input type="number" id="score" name="score" min="0" max="10" step="1" placeholder="평점">
+        <br><br>
+        <input type="submit" value="등록하기">
+    </form>
 </body>
 </html>

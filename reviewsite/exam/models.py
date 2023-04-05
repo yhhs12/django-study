@@ -12,7 +12,7 @@ class Movie(models.Model):
 
 class Review(models.Model):
     reviewer_name = models.CharField(max_length= 20)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='reviews')
     review_text = models.TextField()
     score = models.IntegerField(default=0)
     reg_date = models.DateTimeField(default = timezone.now)

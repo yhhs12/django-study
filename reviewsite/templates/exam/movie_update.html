@@ -5,6 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>[영화 정보 수정하기]</title>
+    <script>
+      function confirmDelete(){
+        let c = confirm("삭제된 내용은 복구가 안됩니다. 삭제하시겠습니까?")
+          
+          if(c) {
+            location.href = '/exam/' + {{ movie.id }} + '/delete/';
+          }else{
+            alert("삭제가 취소되었습니다.")
+            return false;
+          }
+
+          //정말 삭제?
+          //네 -> 삭제
+          //아니요 -> 가만히 있기
+      }
+  </script>
   </head>
   <body>
     <h1>[영화 정보 수정하기]</h1>
@@ -21,15 +37,18 @@
           </select>
         </tr>
         <th>제목</th>
-          <td><input type="text" name="title" /></td>
+          <td><input type="text" name="title" value="{{movie.movie_name}}" /></td>
         </tr>
         <tr>
           <th>영화 설명</th>
-          <td><textarea name="description" rows="4" cols="50"></textarea></td>
+          <td><textarea name="description" rows="4" cols="50" value="{{movie.movie_summary}}"></textarea></td>
         </tr>   
         
         <tr>
         <input type="submit" value="정보 수정하기" /></th>
+        </tr>
+        <tr>
+        <button onclick="confirmDelete()">정보 삭제하기</button>
         </tr>
       </table>
     </form>

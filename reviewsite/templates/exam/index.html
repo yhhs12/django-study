@@ -15,7 +15,6 @@
       <th>장르</th>
       <th>제목</th>
       <th>리뷰 수</th>
-      <!-- 리스트 내용 반복 -->
       {% for m in movie_list%}
       <tr>
         <td>{{ m.id }}</td>
@@ -36,8 +35,3 @@
   </body>
 </html>
 
-{% comment %}
-<form action="write_board/" method="POST">
-  {%csrf_token%}
-  <input type="submit" name="write" value="글쓰기" /> {% endcomment %}
-{% comment %} </form> {% endcomment %}

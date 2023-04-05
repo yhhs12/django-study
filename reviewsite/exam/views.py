@@ -1,7 +1,9 @@
+from json import loads
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, FileResponse
 from django.template import loader
 from django.core.paginator import Paginator
+from django.db.models import Avg
 
 
 from .models import Movie, Review
@@ -43,10 +45,11 @@ def movie_list(request):
     
     context = {'movie_list': movies}
     
-    return render(request, 'exam/index.html', context)  # 컨텍스트 변수를 템플릿에 전달하여 렌더링
+    return render(request, 'exam/movie_list.html', context)
         
 def read(request, id):
     movie = Movie.objects.get(id = id)
+    
     
     review_list = Review.objects.filter(reviewer_name = id).order_by('-id')
     
@@ -65,16 +68,43 @@ def update(request, id):
         return render(request, 'exam/movie_update.html', context)
     
     else:
-        genre = request.POST['genre']
-        description = request.POST['description']
-        movie_name = request.POST['title']
+        movie.genre = request.POST['genre']
+        movie.movie_summary = request.POST['description']
+        movie.movie_name = request.POST['title']       
         
-        movie = Movie(genre=genre, movie_name=movie_name, movie_summary=description)
         movie.save()
         
         
     return HttpResponseRedirect('/exam/')
+
+def delete(request, id):
+    
+    movie = Movie.objects.get(id=id)
+    movie.delete()
+    return HttpResponseRedirect('/exam/')
+
+
+
+def write_review(request, id):
+    movie = Movie.objects.get(id=id)
+    
+    if request.method == 'POST':
+        reviewer_name = request.POST['nickname']
+        review_text = request.POST['description']
+        score = request.POST['score']   
         
+        review = Review(reviewer_name=reviewer_name, review_text=review_text, score=score, movie=movie)
+        review.save()
+    
+    context = {
+        'movie': movie,
+        'review': review  
+    }
+
+    return HttpResponseRedirect('/exam/' + str(id), context)
+
+
+
 
 
     

@@ -10,27 +10,26 @@
 </head>
 <body>
     <h1>영화 리뷰 게시판</h1>    
-    <table border="1">
+    {% if movie_list %}
+    <table border="3">
     <th>번호</th>
     <th>장르</th>
     <th>제목</th>
     <th>리뷰 수</th>
-    {% for m in movie_list%}
+    {% for m in movie_list %}
     <tr>
         <td>{{ m.id }}</td>
         <td>{{ m.genre }}</td>
         <td><a href="{{m.id}}">{{ m.movie_name }}</a></td>
-        <td>{{ m.quantity }}</td>
+        <td>{{ m.review_set.count }}</td>
     </tr>
-    {% endfor%}
+    {% endfor %}
     </table>
+    {% else %}
+    <p>영화 정보가 없습니다.</p>
+    {% endif %}
     <a href="add">영화 등록하기</a>
-    <form action="find_ordertext/" method="post">
-    {%csrf_token%}
-    <input type="radio" name="condition" value="all" checked="true" />영화 검색
-    <input type="radio" name="condition" value="part" />영화 제목 부분검색
-    <input type="text" name="search_content" />
-    <input type="submit" value="검색" />
-    </form>
+    
+    
 </body>
 </html>
