@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>review board</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}" />
+  </head>
+  <body>
+    <h1>영화 리뷰 게시판</h1>    
+    <table border="1">
+      <th>번호</th>
+      <th>장르</th>
+      <th>제목</th>
+      <th>리뷰 수</th>
+      <!-- 리스트 내용 반복 -->
+      {% for m in movie_list%}
+      <tr>
+        <td>{{ m.id }}</td>
+        <td>{{ m.genre }}</td>
+        <td><a href="{{m.id}}">{{ m.movie_name }}</a></td>
+        <td>{{ m.quantity }}</td>
+      </tr>
+      {% endfor%}
+    </table>
+    <a href="add">영화 등록하기</a>
+    <form action="find_ordertext/" method="post">
+      {%csrf_token%}
+      <input type="radio" name="condition" value="all" checked="true" />영화 검색
+      <input type="radio" name="condition" value="part" />영화 제목 부분검색
+      <input type="text" name="search_content" />
+      <input type="submit" value="검색" />
+    </form>
+  </body>
+</html>
+
+{% comment %}
+<form action="write_board/" method="POST">
+  {%csrf_token%}
+  <input type="submit" name="write" value="글쓰기" /> {% endcomment %}
+{% comment %} </form> {% endcomment %}

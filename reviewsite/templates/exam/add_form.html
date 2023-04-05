@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[영화 정보 등록]</title>
+  </head>
+  <body>
+    <h1>[영화 정보 등록]</h1>
+    <form action="../add/" method="POST">
+       {% csrf_token %}
+      <table>
+        <tr>
+          <td>&nbsp;&nbsp;&nbsp;장르</td>
+          <td>
+          <select name="genre">
+            <option value="코미디">코미디</option>
+            <option value="액션">액션</option>
+            <option value="애니메이션">애니메이션</option>
+          </select>
+        </td>
+        </tr>
+        
+        <th>제목</th>
+          <td><input type="text" name="title" /></td>
+        </tr>
+        <tr>
+          <th>영화 설명</th>
+          <td><textarea name="description" rows="4" cols="50"></textarea></td>
+        </tr>
+        <tr>
+          <td><input type="submit" value="등록하기" /></td>
+      </table>
+    </form>
+  </body>
+</html>
